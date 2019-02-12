@@ -75,10 +75,10 @@ class CrudEquipamento {
     }
      
     
-             public function querySeleciona3($id){
+         public function querySeleciona3($id){
         try{
             $con = new conecta();
-            $stmt = $con->conectar()->prepare("SELECT equipamento.nome, equipamento.id FROM equipamento, sala WHERE equipamento.cod_equipamento = sala.id and sala.id = :id;");
+            $stmt = $con->conectar()->prepare("SELECT equipamento.nome, porta.nome as nome_Porta FROM equipamento, porta, sala WHERE equipamento.cod_equipamento = sala.id and porta.id = equipamento.cod_porta and sala.id =:id;");
             $stmt->bindParam(":id", $id);
             $stmt->execute();
             return $stmt->fetchAll();
