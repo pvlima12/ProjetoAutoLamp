@@ -4,7 +4,7 @@ verificaUsuario();
 ?>
 
 <?php
- include 'cabecalho.php';
+include ("cabecalho.php");
 ?>
 
 <h1 class="center-align">Acionamento manual </h1>
@@ -12,6 +12,7 @@ verificaUsuario();
 <?php
 include './Class/Porta.php';
 include './Dao/CrudPorta.php';
+
 $porta = new Porta();
 $daoporta = new CrudPorta();
 $resultado = $daoporta->querySelect2();
@@ -38,24 +39,25 @@ $resultado = $daoporta->querySelect2();
     </form>
 </div>
 
-
 <?php
-    if($_POST) {
-         
-        $s = array();
-        foreach ($_POST as $chave => $valor) {
-          if(is_array($valor)) {
-              echo 'Chave: ' . $chave . ' Valores:<br />';
-              foreach($valor as $ch=>$va){
-                  echo 'Chave: ' . $ch . ' | Valor: ' . $va . '<br />';
-              }
-              echo '<br />';
-          } else {
-              echo 'Chave: ' . $chave . ' | Valor: ' . $valor . '<br />';  
-          }
-        }
-        
-    }
-?>
+if ($_POST) {
 
+    $s = array();
+    foreach ($_POST as $chave => $valor) {
+        if (is_array($valor)) {
+
+            foreach ($valor as $ch => $va) {
+                $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+                socket_connect($sock, "192.168.0.140", 80);
+                socket_write($sock, $va);
+
+                socket_close($sock);
+            }
+            echo '<br />';
+        } else {
+            echo 'Chave: ' . $chave . ' | Valor: ' . $valor . '<br />';
+        }
+    }
+}
+?>
 <?php include("rodape.php"); ?>

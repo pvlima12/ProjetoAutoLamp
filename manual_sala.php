@@ -6,42 +6,36 @@ verificaUsuario();
 include ("cabecalho.php");
 ?>
 <?php
-if ($_POST) {    
+if ($_POST) {
     if (isset($_POST['salvar'])) {
         if ((isset($_POST['cod_sala']))) {
             include './Class/Equipamento.php';
             require_once './Dao/CrudEquipamento.php';
-            
-$sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-socket_connect($sock, "192.168.0.140", 80);
-socket_write($sock, 1);
 
-$status = socket_read($sock, 6);
-if ($status[1] == 1 && $status[5]==1){
-    
-       echo 'Lampada on<br>';
-    echo 'Ventilador On';
-  
-}
- elseif ($status[1]==0 && $status[5]==0){
-    echo 'Lampada Off <br>';
-    echo 'Ventilador Off';
-}
- elseif ($status[1] == 1 && $status[5] == 0){
-    echo 'Lampada Off <br>';
-    echo 'Ventilador On';
-} 
- 
-elseif ($status[1] == 0 && $status[5] == 1){
-    echo 'Lampada On <br>';
-    echo 'Ventilador Off';
-}
-else {
-    echo 'Erro ao receber dados <br>';
-} 
+            $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+            socket_connect($sock, "192.168.0.140", 80);
+            socket_write($sock, 1);
 
-socket_close($sock);
-            
+            $status = socket_read($sock, 6);
+            if ($status[1] == 1 && $status[5] == 1) {
+
+                echo 'Lampada on<br>';
+                echo 'Ventilador On';
+            } elseif ($status[1] == 0 && $status[5] == 0) {
+                echo 'Lampada Off <br>';
+                echo 'Ventilador Off';
+            } elseif ($status[1] == 1 && $status[5] == 0) {
+                echo 'Lampada Off <br>';
+                echo 'Ventilador On';
+            } elseif ($status[1] == 0 && $status[5] == 1) {
+                echo 'Lampada On <br>';
+                echo 'Ventilador Off';
+            } else {
+                echo 'Erro ao receber dados <br>';
+            }
+
+            socket_close($sock);
+
             $equipamento = new Equipamento();
             $daoEqi = new CrudEquipamento();
 // resgata variáveis do formulário
@@ -71,7 +65,7 @@ socket_close($sock);
 
 
 
-                    <?php } ?>
+            <?php } ?>
 
                     <br>
                     <br>
@@ -114,9 +108,9 @@ socket_close($sock);
                     }
                 </script>
 
-                <?php
-            }
+            <?php
         }
     }
-    ?>
+}
+?>
     <?php include("Rodape.php"); ?>
